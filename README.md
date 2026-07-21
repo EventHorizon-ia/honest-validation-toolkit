@@ -35,7 +35,7 @@ The goal is simple:
 # Installation
 
 ```bash
-pip install honest-validation-toolkit
+pip install git+https://github.com/EventHorizon-ia/honest-validation-toolkit.git
 ```
 
 At the moment, you can also copy the `honest_validation/` folder directly into your project.
