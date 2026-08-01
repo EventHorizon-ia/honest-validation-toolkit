@@ -94,7 +94,7 @@ print(f"WAPE: {error:.2f}%")
 | **wape** | Regression | Weighted Absolute Percentage Error |
 | **mase** | Regression | Mean Absolute Scaled Error |
 
-📖 **Complete documentation:** `GUIDE.md`
+📖 **Complete documentation:** [GUIDE.md](https://github.com/EventHorizon-ia/honest-validation-toolkit/blob/main/GUIDE.md)
 
 ---
 
