@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: honest-validation-toolkit
+Version: 0.1.1
+Summary: Lightweight Python library for rigorous time-series validation.
+Home-page: https://github.com/EventHorizon-ia/honest-validation-toolkit
+Author: Lucas (EventHorizon-IA)
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pandas
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+Lightweight Python library for rigorous time-series validation.

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='honest-validation-toolkit',
-    version='0.1.0',
+    version='0.1.1',
     packages=['honest_validation'],
     install_requires=['numpy', 'pandas'],
     author='Lucas (EventHorizon-IA)',
