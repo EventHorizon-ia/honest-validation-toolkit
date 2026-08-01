@@ -3,20 +3,26 @@
 > **Lightweight Python library for rigorous time-series validation.**  
 > Used across all **EventHorizon** products. Now available as a standalone package.
 
+![PyPI](https://img.shields.io/pypi/v/honest-validation-toolkit)
+![License](https://img.shields.io/github/license/EventHorizon-ia/honest-validation-toolkit)
+![Python](https://img.shields.io/pypi/pyversions/honest-validation-toolkit)
+
 ---
 
 # Why This Exists
 
-Most forecasting projects report a single accuracy number with **no confidence interval**, **no temporal awareness**, and **no protection against autocorrelation bias**.
+Most forecasting projects report a single accuracy number with:
+
+- ❌ No confidence interval
+- ❌ No temporal awareness
+- ❌ No protection against autocorrelation bias
 
 This library provides the same validation pipeline that:
 
-- 📈 Discovered a real **8 percentage point edge** in cryptocurrency prediction (and demonstrated that it was **not economically viable**).
-- 📦 Confirmed a **30% improvement** in demand forecasting.
+- 📈 Identified a real **8 percentage point predictive edge** in cryptocurrency forecasting (and demonstrated that it was **not economically viable**).
+- 📦 Confirmed a **30% improvement** in retail demand forecasting.
 
-The goal is simple:
-
-> **Measure model performance honestly, without introducing temporal leakage or misleading statistics.**
+> **The goal is simple:** evaluate forecasting models honestly, without temporal leakage or misleading statistical conclusions.
 
 ---
 
@@ -24,21 +30,56 @@ The goal is simple:
 
 | Feature | Description |
 |---------|-------------|
-| ✅ Framework Agnostic | Compatible with **PyTorch**, **LightGBM**, **scikit-learn**, XGBoost, CatBoost and any other framework. |
-| 📊 Domain Agnostic | Supports both **classification** and **regression** problems. |
-| ⏳ Time-Series Aware | All validation methods respect temporal order. |
-| 📈 Statistical Validation | Confidence intervals, bootstrap and permutation tests included. |
-| ⚡ Lightweight | Depends only on **NumPy** and **pandas**. |
+| ✅ **Framework Agnostic** | Compatible with **PyTorch**, **LightGBM**, **scikit-learn**, XGBoost, CatBoost and any custom model. |
+| 📊 **Domain Agnostic** | Supports both **classification** and **regression** tasks. |
+| ⏳ **Time-Series Aware** | Every validation method preserves chronological order. |
+| 📈 **Statistical Validation** | Confidence intervals, bootstrap methods and permutation tests included. |
+| ⚡ **Lightweight** | Depends only on **NumPy** and **pandas**. |
 
 ---
 
 # Installation
 
 ```bash
-pip install git+https://github.com/EventHorizon-ia/honest-validation-toolkit.git
+pip install honest-validation-toolkit
 ```
 
-At the moment, you can also copy the `honest_validation/` folder directly into your project.
+**Dependencies**
+
+| Package | Required |
+|---------|----------|
+| NumPy | ✅ |
+| pandas | ✅ |
+
+No deep learning framework is required.
+
+---
+
+# Quick Start
+
+```python
+from honest_validation import block_bootstrap, wape
+import numpy as np
+
+# Classification
+hits = np.array([1, 0, 1, 1, 0, 1, 0, 0, 1, 1])
+
+ci_low, ci_high = block_bootstrap(
+    hits,
+    block_size=3,
+    n_boot=1000
+)
+
+print(f"Accuracy 95% CI: [{ci_low:.2%}, {ci_high:.2%}]")
+
+# Regression
+y_true = np.array([100, 120, 90, 110, 130])
+y_pred = np.array([105, 115, 95, 105, 125])
+
+error = wape(y_true, y_pred)
+
+print(f"WAPE: {error:.2f}%")
+```
 
 ---
 
@@ -46,32 +87,59 @@ At the moment, you can also copy the `honest_validation/` folder directly into y
 
 | Function | Domain | Purpose |
 |----------|--------|---------|
-| **block_bootstrap** | Classification | Temporal block bootstrap for accuracy confidence intervals |
+| **block_bootstrap** | Classification | Temporal block bootstrap for confidence intervals |
 | **gap_bootstrap** | Classification | Paired difference bootstrap (real vs. permuted) |
-| **wape_bootstrap_por_data** | Regression | Block bootstrap for WAPE while preserving cross-sectional correlation |
-| **wape_diff_bootstrap_por_data** | Regression | Paired bootstrap comparing model vs. baseline WAPE |
+| **permutation_test** | Classification | Statistical significance test against the null distribution |
 | **walkforward_split** | General | Walk-forward temporal split with configurable embargo |
-| **permutation_test** | Classification | Permutation significance test against the null distribution |
 | **wape** | Regression | Weighted Absolute Percentage Error |
 | **mase** | Regression | Mean Absolute Scaled Error |
 
+📖 **Complete documentation:** `GUIDE.md`
+
 ---
 
-# Quick Example
+# Validation Philosophy
 
-```python
-from honest_validation import block_bootstrap, wape
+Unlike traditional validation approaches that randomly shuffle observations, **honest-validation-toolkit** treats time as a first-class citizen.
 
-# Classification
-ci_low, ci_high = block_bootstrap(
-    acertos,
-    block_size=50,
-    n_boot=2000
-)
+| Principle | Description |
+|-----------|-------------|
+| ⏳ **Temporal Awareness** | Every resampling strategy preserves chronological order. |
+| 📊 **Honest Intervals** | Report confidence intervals instead of only point estimates. |
+| 🔬 **Statistical Rigor** | Bootstrap and permutation methods designed specifically for time-series data. |
+| 🚫 **No Data Leakage** | Evaluation follows production conditions as closely as possible. |
 
-# Regression
-erro = wape(y_true, y_pred)
+---
+
+# Typical Workflow
+
+```text
+Raw Predictions
+        │
+        ▼
+Walk-Forward Split
+        │
+        ▼
+Bootstrap Confidence Intervals
+        │
+        ▼
+Permutation / Gap Tests
+        │
+        ▼
+Statistically Validated Results
 ```
+
+---
+
+# Use Cases
+
+- 📈 Financial forecasting
+- 🪙 Cryptocurrency prediction
+- 🛒 Retail demand forecasting
+- ⚡ Energy consumption forecasting
+- 📦 Supply chain optimization
+- 🎓 Academic machine learning research
+- 🤖 Benchmarking forecasting models
 
 ---
 
@@ -81,51 +149,29 @@ erro = wape(y_true, y_pred)
 honest-validation-toolkit/
 │
 ├── honest_validation/
-│   ├── __init__.py          # Public API
-│   ├── bootstrap.py         # Block and gap bootstrap
-│   ├── walkforward.py       # Temporal split with embargo
-│   ├── permutation.py       # Permutation testing
-│   └── metrics.py           # WAPE, MASE
+│   ├── __init__.py
+│   ├── bootstrap.py
+│   ├── walkforward.py
+│   ├── permutation.py
+│   └── metrics.py
 │
-└── README.md
+├── GUIDE.md
+├── README.md
+└── pyproject.toml
 ```
-
----
-
-# Philosophy
-
-| Principle | Description |
-|-----------|-------------|
-| ⏳ **Temporal Awareness** | Every resampling strategy preserves chronological order. No random shuffling across time. |
-| 📊 **Honest Intervals** | Report confidence intervals instead of only point estimates. |
-| 🔬 **Statistical Rigor** | Built around bootstrap and permutation methods designed for time-series data. |
-| ⚡ **Minimal Dependencies** | Only **NumPy** and **pandas** are required. No framework lock-in. |
-
----
-
-# Use Cases
-
-- Cryptocurrency forecasting
-- Financial time series
-- Demand forecasting
-- Energy forecasting
-- Sales prediction
-- Machine learning benchmarking
-- Academic research
-- Production model validation
 
 ---
 
 # Links
 
-| Project | 
-|---------|
-| 🚀 [EventHorizon-AI hub](https://github.com/EventHorizon-ia/eventhorizon) |
-| 📈 [Crypto Research](https://github.com/EventHorizon-ia/crypto-h0-edge) |
-| 📦 [Demand Research](https://github.com/EventHorizon-ia/demand-m5) |
+| Project | Link |
+|---------|------|
+| 🚀 EventHorizon-AI Hub | *(https://github.com/EventHorizon-ia/EventHorizon)* |
+| 📈 Crypto Research | *(https://github.com/EventHorizon-ia/crypto-h0-edge)* |
+| 📦 Demand Research | *(https://github.com/EventHorizon-ia/demand-m5)* |
 
 ---
 
-## License
+# License
 
 MIT License.
