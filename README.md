@@ -111,6 +111,37 @@ Unlike traditional validation approaches that randomly shuffle observations, **h
 
 ---
 
+# What This Toolkit Validates
+
+The toolkit is designed to help answer questions such as:
+
+- Is the observed performance statistically distinguishable from a baseline or null hypothesis?
+- How uncertain is the estimated performance?
+- Does the result remain stable under temporal resampling?
+- Does the evaluation respect the chronological structure of the data?
+- Is an apparent improvement likely to be explained by randomness or temporal dependence?
+
+The output is statistical evidence about model performance.
+
+# What This Toolkit Does Not Validate
+
+Statistical validation is only one part of evaluating a real-world forecasting system.
+
+This toolkit does not determine:
+
+- 💰 Whether a model is economically profitable
+- 📦 Whether forecast errors create meaningful business losses
+- ⚙️ Whether a business can operationally act on the predictions
+- 🔄 Whether the model fits an organization's existing workflow
+- 📈 Whether the model creates sufficient business value to justify adoption
+
+A statistically significant improvement can still be economically irrelevant.
+
+Likewise, a model can have useful operational value even when a particular statistical test does not capture every aspect of that value.
+
+> Statistical validity and real-world viability are separate questions.
+
+
 # Typical Workflow
 
 ```text
