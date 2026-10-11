@@ -39,7 +39,7 @@ This library provides validation utilities used across EventHorizon research:
 | ✅ **Framework Agnostic** | Works with NumPy arrays and pandas-compatible outputs; compatible with PyTorch, LightGBM, scikit-learn, XGBoost, CatBoost and custom models. |
 | 📊 **Domain Agnostic** | Supports classification and regression workflows. |
 | ⏳ **Time-Series Aware** | Validation utilities preserve chronological order. |
-| 📈 **Statistical Validation** | Includes bootstrap confidence intervals, paired gap analysis and permutation testing. |
+| 📈 **Statistical Evidence** | Includes bootstrap confidence intervals, gap analysis and permutation-based null comparisons. |
 | ⚡ **Lightweight** | Core dependencies are NumPy and pandas. |
 
 ---
@@ -68,23 +68,28 @@ from honest_validation import block_bootstrap, wape
 import numpy as np
 
 # Classification
-hits = np.array()[0][1]
+y_true = np.array([1, 0, 1, 1, 0, 1, 0, 0, 1, 1])
+y_pred = np.array([1, 1, 1, 0, 0, 1, 0, 1, 1, 0])
+
+hits = (y_true == y_pred).astype(int)
 
 ci_low, ci_high = block_bootstrap(
     hits,
     block_size=3,
-    n_boot=1000
+    n_boot=1000,
+    seed=42
 )
 
 print(f"Accuracy 95% CI: [{ci_low:.2%}, {ci_high:.2%}]")
 
+
 # Regression
-y_true = np.array()[90][100][110][120][130]
-y_pred = np.array()[95][105][115][125]
+y_true = np.array([100, 120, 90, 110, 130])
+y_pred = np.array([105, 115, 95, 105, 125])
 
 error = wape(y_true, y_pred)
 
-print(f"WAPE: {error:.2%}")
+print(f"WAPE: {error:.2f}%")
 ```
 
 ---
@@ -94,7 +99,7 @@ print(f"WAPE: {error:.2%}")
 | Function | Domain | Purpose |
 |---|---|---|
 | **block_bootstrap** | Classification | Moving block bootstrap for uncertainty estimation and confidence intervals |
-| **gap_bootstrap** | Classification | Paired bootstrap for the difference between a model and a baseline |
+| **gap_bootstrap** | Classification | Bootstrap interval for the difference between a real result and a permuted/null result |
 | **permutation_test** | Classification | Approximate permutation test using a target-shuffled null distribution |
 | **walkforward_split** | General | Walk-forward temporal split with configurable embargo |
 | **wape** | Regression | Weighted Absolute Percentage Error |
@@ -113,7 +118,7 @@ time as a first-class citizen.
 |---|---|
 | ⏳ **Temporal Awareness** | Resampling and evaluation utilities preserve chronological structure. |
 | 📊 **Honest Intervals** | Report uncertainty alongside point estimates. |
-| 🔬 **Baseline Comparison** | Compare a model with an appropriate baseline using paired metrics where possible. |
+| 🔬 **Reference Comparison** | Compare observed results with an appropriate baseline or permutation-based null result. |
 | 🛡️ **Leakage Awareness** | Use temporal splits, embargo and chronological evaluation to reduce leakage risk. |
 
 ---
@@ -154,35 +159,6 @@ statistical test does not capture every aspect of that value.
 
 ---
 
-# What This Toolkit Validates
-
-The toolkit is designed to help answer questions such as:
-
-- Is the observed performance statistically distinguishable from a baseline or null hypothesis?
-- How uncertain is the estimated performance?
-- Does the result remain stable under temporal resampling?
-- Does the evaluation respect the chronological structure of the data?
-- Is an apparent improvement likely to be explained by randomness or temporal dependence?
-
-The output is statistical evidence about model performance.
-
-# What This Toolkit Does Not Validate
-
-Statistical validation is only one part of evaluating a real-world forecasting system.
-
-This toolkit does not determine:
-
-- 💰 Whether a model is economically profitable
-- 📦 Whether forecast errors create meaningful business losses
-- ⚙️ Whether a business can operationally act on the predictions
-- 🔄 Whether the model fits an organization's existing workflow
-- 📈 Whether the model creates sufficient business value to justify adoption
-
-A statistically significant improvement can still be economically irrelevant.
-
-Likewise, a model can have useful operational value even when a particular statistical test does not capture every aspect of that value.
-
-> Statistical validity and real-world viability are separate questions.
 
 
 # Typical Workflow
