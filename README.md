@@ -1,7 +1,7 @@
 # honest-validation-toolkit
 
 > **Lightweight Python library for rigorous time-series validation.**  
-> Used across all **EventHorizon** products. Now available as a standalone package.
+> Used across EventHorizon research projects. Available as a standalone package.
 
 ![PyPI](https://img.shields.io/pypi/v/honest-validation-toolkit)
 ![License](https://img.shields.io/github/license/EventHorizon-ia/honest-validation-toolkit)
@@ -11,30 +11,36 @@
 
 # Why This Exists
 
-Most forecasting projects report a single accuracy number with:
+Many forecasting projects report a single accuracy number without showing:
 
-- ❌ No confidence interval
-- ❌ No temporal awareness
-- ❌ No protection against autocorrelation bias
+- ❌ Confidence intervals
+- ❌ Temporal awareness
+- ❌ Protection against autocorrelation-related bias
+- ❌ A clear comparison against an appropriate baseline
 
-This library provides the same validation pipeline that:
+This library provides validation utilities used across EventHorizon research:
 
-- 📈 Identified a real **8 percentage point predictive edge** in cryptocurrency forecasting (and demonstrated that it was **not economically viable**).
-- 📦 Confirmed a **30% improvement** in retail demand forecasting.
+- 📈 Crypto research: investigated short-horizon BTC/USDT directional
+  prediction, estimated uncertainty and documented that the evaluated strategy
+  was economically unviable.
+- 📦 Retail demand research: estimated uncertainty around a WAPE improvement
+  over a naive lag-7 baseline using block and paired gap bootstraps.
 
-> **The goal is simple:** evaluate forecasting models honestly, without temporal leakage or misleading statistical conclusions.
+> **The goal is simple:** make temporal evaluation, uncertainty estimation and
+> baseline comparison more explicit, reducing the risk of temporal leakage and
+> misleading statistical conclusions.
 
 ---
 
 # Features
 
 | Feature | Description |
-|---------|-------------|
-| ✅ **Framework Agnostic** | Compatible with **PyTorch**, **LightGBM**, **scikit-learn**, XGBoost, CatBoost and any custom model. |
-| 📊 **Domain Agnostic** | Supports both **classification** and **regression** tasks. |
-| ⏳ **Time-Series Aware** | Every validation method preserves chronological order. |
-| 📈 **Statistical Validation** | Confidence intervals, bootstrap methods and permutation tests included. |
-| ⚡ **Lightweight** | Depends only on **NumPy** and **pandas**. |
+|---|---|
+| ✅ **Framework Agnostic** | Works with NumPy arrays and pandas-compatible outputs; compatible with PyTorch, LightGBM, scikit-learn, XGBoost, CatBoost and custom models. |
+| 📊 **Domain Agnostic** | Supports classification and regression workflows. |
+| ⏳ **Time-Series Aware** | Validation utilities preserve chronological order. |
+| 📈 **Statistical Validation** | Includes bootstrap confidence intervals, paired gap analysis and permutation testing. |
+| ⚡ **Lightweight** | Core dependencies are NumPy and pandas. |
 
 ---
 
@@ -47,11 +53,11 @@ pip install honest-validation-toolkit
 **Dependencies**
 
 | Package | Required |
-|---------|----------|
+|---|---|
 | NumPy | ✅ |
 | pandas | ✅ |
 
-No deep learning framework is required.
+No deep-learning framework is required.
 
 ---
 
@@ -62,7 +68,7 @@ from honest_validation import block_bootstrap, wape
 import numpy as np
 
 # Classification
-hits = np.array([1, 0, 1, 1, 0, 1, 0, 0, 1, 1])
+hits = np.array()[0][1]
 
 ci_low, ci_high = block_bootstrap(
     hits,
@@ -73,12 +79,12 @@ ci_low, ci_high = block_bootstrap(
 print(f"Accuracy 95% CI: [{ci_low:.2%}, {ci_high:.2%}]")
 
 # Regression
-y_true = np.array([100, 120, 90, 110, 130])
-y_pred = np.array([105, 115, 95, 105, 125])
+y_true = np.array()[90][100][110][120][130]
+y_pred = np.array()[95][105][115][125]
 
 error = wape(y_true, y_pred)
 
-print(f"WAPE: {error:.2f}%")
+print(f"WAPE: {error:.2%}")
 ```
 
 ---
@@ -86,10 +92,10 @@ print(f"WAPE: {error:.2f}%")
 # Available Functions
 
 | Function | Domain | Purpose |
-|----------|--------|---------|
-| **block_bootstrap** | Classification | Temporal block bootstrap for confidence intervals |
-| **gap_bootstrap** | Classification | Paired difference bootstrap (real vs. permuted) |
-| **permutation_test** | Classification | Statistical significance test against the null distribution |
+|---|---|---|
+| **block_bootstrap** | Classification | Moving block bootstrap for uncertainty estimation and confidence intervals |
+| **gap_bootstrap** | Classification | Paired bootstrap for the difference between a model and a baseline |
+| **permutation_test** | Classification | Approximate permutation test using a target-shuffled null distribution |
 | **walkforward_split** | General | Walk-forward temporal split with configurable embargo |
 | **wape** | Regression | Weighted Absolute Percentage Error |
 | **mase** | Regression | Mean Absolute Scaled Error |
@@ -100,14 +106,51 @@ print(f"WAPE: {error:.2f}%")
 
 # Validation Philosophy
 
-Unlike traditional validation approaches that randomly shuffle observations, **honest-validation-toolkit** treats time as a first-class citizen.
+Unlike approaches that randomly shuffle observations, this toolkit treats
+time as a first-class citizen.
 
 | Principle | Description |
-|-----------|-------------|
-| ⏳ **Temporal Awareness** | Every resampling strategy preserves chronological order. |
-| 📊 **Honest Intervals** | Report confidence intervals instead of only point estimates. |
-| 🔬 **Statistical Rigor** | Bootstrap and permutation methods designed specifically for time-series data. |
-| 🚫 **No Data Leakage** | Evaluation follows production conditions as closely as possible. |
+|---|---|
+| ⏳ **Temporal Awareness** | Resampling and evaluation utilities preserve chronological structure. |
+| 📊 **Honest Intervals** | Report uncertainty alongside point estimates. |
+| 🔬 **Baseline Comparison** | Compare a model with an appropriate baseline using paired metrics where possible. |
+| 🛡️ **Leakage Awareness** | Use temporal splits, embargo and chronological evaluation to reduce leakage risk. |
+
+---
+
+# What This Toolkit Helps Answer
+
+- How uncertain is an estimated performance metric?
+- Is an observed improvement distinguishable from an appropriate baseline?
+- Does performance remain stable under temporal resampling?
+- Does the evaluation respect the chronological structure of the data?
+- Is an apparent improvement plausibly explained by randomness or temporal
+  dependence?
+
+The output is statistical evidence about model performance.
+
+---
+
+# What This Toolkit Does Not Validate
+
+Statistical validation is only one part of evaluating a real-world forecasting
+system.
+
+This toolkit does not determine:
+
+- 💰 Whether a model is economically profitable
+- 📦 Whether forecast errors create meaningful business losses
+- ⚙️ Whether a business can operationally act on the predictions
+- 🔄 Whether the model fits an organization’s existing workflow
+- 📈 Whether the model creates sufficient business value to justify adoption
+
+A result that appears statistically distinguishable from a baseline can still
+be economically irrelevant.
+
+Likewise, a model can have useful operational value even when a particular
+statistical test does not capture every aspect of that value.
+
+> Statistical validity and real-world viability are separate questions.
 
 ---
 
@@ -148,16 +191,19 @@ Likewise, a model can have useful operational value even when a particular stati
 Raw Predictions
         │
         ▼
-Walk-Forward Split
+Temporal / Walk-Forward Split
+        │
+        ▼
+Point Metrics
         │
         ▼
 Bootstrap Confidence Intervals
         │
         ▼
-Permutation / Gap Tests
+Permutation / Paired Gap Analysis
         │
         ▼
-Statistically Validated Results
+Uncertainty and Baseline Comparison
 ```
 
 ---
@@ -167,10 +213,10 @@ Statistically Validated Results
 - 📈 Financial forecasting
 - 🪙 Cryptocurrency prediction
 - 🛒 Retail demand forecasting
-- ⚡ Energy consumption forecasting
-- 📦 Supply chain optimization
-- 🎓 Academic machine learning research
-- 🤖 Benchmarking forecasting models
+- ⚡ Energy-consumption forecasting
+- 📦 Supply-chain optimization
+- 🎓 Machine-learning research
+- 🤖 Forecasting-model benchmarking
 
 ---
 
@@ -178,14 +224,12 @@ Statistically Validated Results
 
 ```text
 honest-validation-toolkit/
-│
 ├── honest_validation/
 │   ├── __init__.py
 │   ├── bootstrap.py
 │   ├── walkforward.py
 │   ├── permutation.py
 │   └── metrics.py
-│
 ├── GUIDE.md
 ├── README.md
 └── pyproject.toml
@@ -196,10 +240,10 @@ honest-validation-toolkit/
 # Links
 
 | Project | Link |
-|---------|------|
-| 🚀 EventHorizon-AI Hub | *(https://github.com/EventHorizon-ia/EventHorizon)* |
-| 📈 Crypto Research | *(https://github.com/EventHorizon-ia/crypto-h0-edge)* |
-| 📦 Demand Research | *(https://github.com/EventHorizon-ia/demand-m5)* |
+|---|---|
+| 🚀 EventHorizon-AI Hub | https://github.com/EventHorizon-ia/EventHorizon |
+| 📈 Crypto Research | https://github.com/EventHorizon-ia/crypto-h0-edge |
+| 📦 Demand Research | https://github.com/EventHorizon-ia/demand-m5 |
 
 ---
 

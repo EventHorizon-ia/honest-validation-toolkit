@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "honest-validation-toolkit"
+version = "0.1.1"
+description = "Lightweight Python library for rigorous time-series validation."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+  { name = "EventHorizon-AI" }
+]
+keywords = [
+  "time-series",
+  "validation",
+  "bootstrap",
+  "permutation-test",
+  "walk-forward",
+  "forecasting",
+  "machine-learning"
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = [
+  "numpy>=1.23",
+  "pandas>=1.5"
+]
+
+[project.urls]
+Homepage = "https://github.com/EventHorizon-ia/honest-validation-toolkit"
+Repository = "https://github.com/EventHorizon-ia/honest-validation-toolkit"
+Documentation = "https://github.com/EventHorizon-ia/honest-validation-toolkit/blob/main/GUIDE.md"
+Issues = "https://github.com/EventHorizon-ia/honest-validation-toolkit/issues"
+
+[tool.setuptools.packages.find]
+include = ["honest_validation*"]

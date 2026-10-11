@@ -40,7 +40,7 @@ def mase(y_true, y_pred, y_train, seasonality=1):
         MASE value (NaN if insufficient data).
     """
     n = len(y_train)
-    if n <= seasonality:
+    if n <= seasonality:        
         return np.nan
     naive_errors = np.mean(np.abs(y_train[seasonality:] - y_train[:-seasonality]))
     if naive_errors == 0:
