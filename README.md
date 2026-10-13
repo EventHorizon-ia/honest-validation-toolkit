@@ -13,17 +13,17 @@
 
 Many forecasting projects report a single accuracy number without showing:
 
-- ❌ Confidence intervals
-- ❌ Temporal awareness
-- ❌ Protection against autocorrelation-related bias
-- ❌ A clear comparison against an appropriate baseline
+-  Confidence intervals
+-  Temporal awareness
+-  Protection against autocorrelation-related bias
+-  A clear comparison against an appropriate baseline
 
 This library provides validation utilities used across EventHorizon research:
 
-- 📈 Crypto research: investigated short-horizon BTC/USDT directional
+-  Crypto research: investigated short-horizon BTC/USDT directional
   prediction, estimated uncertainty and documented that the evaluated strategy
   was economically unviable.
-- 📦 Retail demand research: estimated uncertainty around a WAPE improvement
+-  Retail demand research: estimated uncertainty around a WAPE improvement
   over a naive lag-7 baseline using block and paired gap bootstraps.
 
 > **The goal is simple:** make temporal evaluation, uncertainty estimation and
@@ -36,11 +36,11 @@ This library provides validation utilities used across EventHorizon research:
 
 | Feature | Description |
 |---|---|
-| ✅ **Framework Agnostic** | Works with NumPy arrays and pandas-compatible outputs; compatible with PyTorch, LightGBM, scikit-learn, XGBoost, CatBoost and custom models. |
-| 📊 **Domain Agnostic** | Supports classification and regression workflows. |
-| ⏳ **Time-Series Aware** | Validation utilities preserve chronological order. |
-| 📈 **Statistical Evidence** | Includes bootstrap confidence intervals, gap analysis and permutation-based null comparisons. |
-| ⚡ **Lightweight** | Core dependencies are NumPy and pandas. |
+|  **Framework Agnostic** | Works with NumPy arrays and pandas-compatible outputs; compatible with PyTorch, LightGBM, scikit-learn, XGBoost, CatBoost and custom models. |
+|  **Domain Agnostic** | Supports classification and regression workflows. |
+|  **Time-Series Aware** | Validation utilities preserve chronological order. |
+|  **Statistical Evidence** | Includes bootstrap confidence intervals, gap analysis and permutation-based null comparisons. |
+|  **Lightweight** | Core dependencies are NumPy and pandas. |
 
 ---
 
@@ -105,7 +105,7 @@ print(f"WAPE: {error:.2f}%")
 | **wape** | Regression | Weighted Absolute Percentage Error |
 | **mase** | Regression | Mean Absolute Scaled Error |
 
-📖 **Complete documentation:** [GUIDE.md](https://github.com/EventHorizon-ia/honest-validation-toolkit/blob/main/GUIDE.md)
+ **Complete documentation:** [GUIDE.md](https://github.com/EventHorizon-ia/honest-validation-toolkit/blob/main/GUIDE.md)
 
 ---
 
@@ -116,10 +116,10 @@ time as a first-class citizen.
 
 | Principle | Description |
 |---|---|
-| ⏳ **Temporal Awareness** | Resampling and evaluation utilities preserve chronological structure. |
-| 📊 **Honest Intervals** | Report uncertainty alongside point estimates. |
-| 🔬 **Reference Comparison** | Compare observed results with an appropriate baseline or permutation-based null result. |
-| 🛡️ **Leakage Awareness** | Use temporal splits, embargo and chronological evaluation to reduce leakage risk. |
+|  **Temporal Awareness** | Resampling and evaluation utilities preserve chronological structure. |
+|  **Honest Intervals** | Report uncertainty alongside point estimates. |
+|  **Reference Comparison** | Compare observed results with an appropriate baseline or permutation-based null result. |
+|  **Leakage Awareness** | Use temporal splits, embargo and chronological evaluation to reduce leakage risk. |
 
 ---
 
@@ -143,11 +143,11 @@ system.
 
 This toolkit does not determine:
 
-- 💰 Whether a model is economically profitable
-- 📦 Whether forecast errors create meaningful business losses
-- ⚙️ Whether a business can operationally act on the predictions
-- 🔄 Whether the model fits an organization’s existing workflow
-- 📈 Whether the model creates sufficient business value to justify adoption
+-  Whether a model is economically profitable
+-  Whether forecast errors create meaningful business losses
+-  Whether a business can operationally act on the predictions
+-  Whether the model fits an organization’s existing workflow
+-  Whether the model creates sufficient business value to justify adoption
 
 A result that appears statistically distinguishable from a baseline can still
 be economically irrelevant.
@@ -186,13 +186,13 @@ Uncertainty and Baseline Comparison
 
 # Use Cases
 
-- 📈 Financial forecasting
-- 🪙 Cryptocurrency prediction
-- 🛒 Retail demand forecasting
-- ⚡ Energy-consumption forecasting
-- 📦 Supply-chain optimization
-- 🎓 Machine-learning research
-- 🤖 Forecasting-model benchmarking
+-  Financial forecasting
+-  Cryptocurrency prediction
+-  Retail demand forecasting
+-  Energy-consumption forecasting
+-  Supply-chain optimization
+-  Machine-learning research
+-  Forecasting-model benchmarking
 
 ---
 
@@ -217,9 +217,9 @@ honest-validation-toolkit/
 
 | Project | Link |
 |---|---|
-| 🚀 EventHorizon-AI Hub | https://github.com/EventHorizon-ia/EventHorizon |
-| 📈 Crypto Research | https://github.com/EventHorizon-ia/crypto-h0-edge |
-| 📦 Demand Research | https://github.com/EventHorizon-ia/demand-m5 |
+|  EventHorizon-AI Hub | https://github.com/EventHorizon-ia/EventHorizon |
+|  Crypto Research | https://github.com/EventHorizon-ia/crypto-h0-edge |
+|  Demand Research | https://github.com/EventHorizon-ia/demand-m5 |
 
 ---
 
